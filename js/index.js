@@ -15,7 +15,7 @@ window.addEventListener("wheel", (e) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  setTimeout(() => (isScrolling = false), 800);
+  setTimeout(() => (isScrolling = false), 2000);
 });
 
 // ---- Navbar visível apenas quando sai da imagem ----
@@ -32,6 +32,6 @@ const observer = new IntersectionObserver((entries) => {
       navbar.classList.add("visible");
     }
   });
-}, { threshold: 0.2 });
+}, { threshold: 0.1 });
 
 observer.observe(hero);
