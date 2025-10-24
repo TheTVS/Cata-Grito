@@ -36,6 +36,6 @@ const observer = new IntersectionObserver((entries) => {
       navbar.classList.add("visible");
     }
   });
-}, { threshold: 0.3 });
+}, { threshold: 0.2 });
 
 observer.observe(hero);

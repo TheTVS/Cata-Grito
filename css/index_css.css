@@ -91,6 +91,28 @@ body {
 
 /* Conteúdo normal, scroll livre */
 .content-section {
-  padding-top: 150px;
+  padding-top: 250px;
   text-align: center;
+}
+
+.image-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.image-table td {
+  text-align: center;
+  padding-bottom: 100px;
+}
+
+.image-table img {
+  width: 370px;
+  height: 370px;
+  filter: brightness(10%); /* controla o "preto" (quanto menor, mais escuro) */
+  transition: filter 0.3s ease;
+}
+
+.image-table img:hover {
+  filter: brightness(100%); 
 }
