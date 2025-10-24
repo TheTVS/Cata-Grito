@@ -9,7 +9,6 @@ body {
   scroll-behavior: smooth;
 }
 
-/* NAVBAR */
 .navbar {
   position: fixed;
   top: 0;
@@ -30,7 +29,6 @@ body {
   transform: translateY(0);
 }
 
-/* Grupos de links */
 .nav-left,
 .nav-right {
   list-style: none;
@@ -51,7 +49,9 @@ body {
 
 .nav-left a:hover,
 .nav-right a:hover {
-  color: #555;
+  text-decoration: line-through;
+  text-decoration-thickness: 8px;
+  text-decoration-color: #FF2D2D;
 }
 
 .nav-center {
@@ -70,7 +70,6 @@ body {
   letter-spacing: 2px;
 }
 
-/* ---- Scroll Snap apenas na primeira seção ---- */
 .hero-section {
   position: relative;
   display: flex;
@@ -89,7 +88,6 @@ body {
   height: 110%;
 }
 
-/* Conteúdo normal, scroll livre */
 .content-section {
   padding-top: 250px;
   text-align: center;
@@ -109,7 +107,7 @@ body {
 .image-table img {
   width: 370px;
   height: 370px;
-  filter: brightness(10%); /* controla o "preto" (quanto menor, mais escuro) */
+  filter: brightness(10%);
   transition: filter 0.3s ease;
 }
 
