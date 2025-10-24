@@ -1,21 +1,25 @@
-// ---- Scroll Snap control (scroll suave entre seções) ----
+// ---- Scroll Snap apenas na primeira seção ----
 let isScrolling = false;
+const firstSectionHeight = window.innerHeight+90;
+
 window.addEventListener("wheel", (e) => {
-  if (isScrolling) return;
-  isScrolling = true;
-
   const scrollPosition = window.scrollY;
-  const windowHeight = window.innerHeight;
 
-  if (e.deltaY > 0 && scrollPosition < windowHeight / 2) {
-    // Scroll para baixo
-    window.scrollTo({ top: windowHeight, behavior: "smooth" });
-  } else if (e.deltaY < 0 && scrollPosition >= windowHeight / 2) {
-    // Scroll para cima
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  // Snap só se estiver na primeira seção
+  if (scrollPosition < firstSectionHeight && !isScrolling) {
+    isScrolling = true;
+
+    if (e.deltaY > 0) {
+      // scroll para baixo
+      window.scrollTo({ top: firstSectionHeight, behavior: "smooth" });
+    } else if (e.deltaY < 0) {
+      // scroll para cima
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    setTimeout(() => (isScrolling = false), 1000);
+    e.preventDefault(); // previne scroll padrão
   }
-
-  setTimeout(() => (isScrolling = false), 2000);
 });
 
 // ---- Navbar visível apenas quando sai da imagem ----
@@ -32,6 +36,6 @@ const observer = new IntersectionObserver((entries) => {
       navbar.classList.add("visible");
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.3 });
 
 observer.observe(hero);
