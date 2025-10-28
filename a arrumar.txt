@@ -1,0 +1,6 @@
+distancia  fotos
+iluminação  com uma foto normal
+sem fade out animation na imagem
+arrumar para mobile
+fonte
+
