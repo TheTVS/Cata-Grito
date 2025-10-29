@@ -1,6 +1,6 @@
 // ---- Scroll Snap apenas na primeira seção ----
 let isScrolling = false;
-const firstSectionHeight = window.innerHeight + 90;
+const firstSectionHeight = window.innerHeight + 10;
 
 window.addEventListener("wheel", (e) => {
   const scrollPosition = window.scrollY;

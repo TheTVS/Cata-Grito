@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Neue Haas Unica', 'Helvetica Neue', Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* === Navbar === */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  z-index: 10;
+  height: 120px;
+}
+
+.navbar.visible {
+  transform: translateY(0);
+}
+
+.nav-left,
+.nav-right {
+  list-style: none;
+  display: flex;
+  gap: 250px;
+  align-self: flex-end;
+  padding-bottom: 10px;
+}
+
+.nav-left a,
+.nav-right a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.nav-left a:hover,
+.nav-right a:hover {
+  text-decoration: line-through;
+  text-decoration-thickness: 6px;
+  text-decoration-color: #FF2D2D;
+}
+
+.nav-center {
+  text-align: center;
+}
+
+.nav-center .logo {
+  width: 60px;
+  height: 60px;
+  background: black;
+  margin: 0 auto 10px auto;
+}
+
+.nav-center h1 {
+  font-size: 2em;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+/* === Mobile menu === */
+.nav-mobile-toggle {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+@media (max-width: 950px) {
+  .navbar {
+    padding: 20px 30px;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .nav-left, .nav-right {
+    display: none;
+    flex-direction: column;
+    gap: 50px;
+    width: 100%;
+    text-align: center;
+    background: white;
+    padding: 20px 0;
+  }
+
+  .navbar.active .nav-left,
+  .navbar.active .nav-right {
+    display: flex;
+  }
+
+  .nav-mobile-toggle {
+    display: block;
+  }
+
+  .nav-center {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* === Sobre Nós Content === */
+table {
+    width: 90%;
+    margin: 100px auto;
+
+    }
+td {
+    padding-right: 150px;
+}
+.bold {
+    font-weight: bold;
+    font-size: 1.6em;
+    line-height: 1.4em;
+}
+.logo{
+    width: 250px;
+    height: 250px;
+    background: black;
+}
