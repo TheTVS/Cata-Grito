@@ -116,35 +116,99 @@ body {
 }
 
 /* === Sobre Nós Content === */
-table {
-    width: 80%;
-    margin-top: 100px;
-    margin-left: 200px;
-    }
-td {
-    position: relative;
-    padding-right: 150px;
-    width: 50%;
+/* Escopo isolado — só afeta a tabela do CATA-GRITO */
+.tabela-cata {
+  width: 80%;
+  margin-top: 100px;
+  margin-left: 200px;
+  margin-bottom: 50px;
+  border-collapse: collapse;
 }
-.bold {
-    position: relative;
-    font-weight: bold;
-    font-size: 1.6em;
-    line-height: 1.4em;
+
+/* Células principais */
+.tabela-cata td {
+  position: relative;
+  padding-right: 150px;
+  width: 50%;
+  vertical-align: top;
 }
-.container {
-      display: flex;
-      gap: 10px;
-      justify-content: left;
-      margin-top: 50px;
-    }
-.quadrado {
-      width: 250px;
-      height: 250px;
-      background-color: black;
+
+/* Primeira coluna com o texto principal */
+.tabela-cata .coluna-texto {
+  width: 70%;
 }
-.segundo_paragrafo {
-    position: relative;
-    font-size: 1.5em;
-    line-height: 1.1em;
+
+/* Segunda coluna com os quadrados */
+.tabela-cata .coluna-imagens {
+  width: 30%;
+}
+
+/* Título / parágrafo principal */
+.tabela-cata .bold {
+  position: relative;
+  font-weight: bold;
+  font-size: 1.6em;
+  line-height: 1.4em;
+}
+
+/* Container dos quadrados pretos */
+.tabela-cata .container {
+  display: flex;
+  gap: 10px;
+  justify-content: left;
+  margin-top: 50px;
+}
+
+/* Quadrados pretos */
+.tabela-cata .quadrado {
+  width: 250px;
+  height: 250px;
+  background-color: black;
+}
+
+/* Segundo parágrafo */
+.tabela-cata .segundo-paragrafo {
+  position: relative;
+  padding-left: 10%;
+  padding-right: 20%;
+  padding-bottom: 20px;
+  top: -15px;
+  font-size: 1.5em;
+  line-height: 1.1em;
+}
+
+/* Demais parágrafos */
+.tabela-cata .paragrafos p {
+  font-size: 1.2em;
+  line-height: 1.1em;
+}
+
+/* 🔹 deixa o título alinhado com a primeira imagem */
+.titulo-integrantes {           /* mesmo tamanho da tabela */
+  margin: 0 auto;        /* centraliza o bloco geral */
+  text-align: left;      /* alinha o texto à esquerda dentro do bloco */
+  padding-left: 5%;    /* 👈 desloca o texto para alinhar com a primeira célula */
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.integrantes {
+  width: 95%;                
+  margin: 0 auto;            
+  border-collapse: separate; 
+  border-spacing: 25px;      /* espaçamento entre as imagens */
+  table-layout: fixed;       
+}
+
+.integrantes td {
+  width: 20%; 
+  padding: 0;
+}
+
+/* 🔲 deixa as imagens quadradas */
+.integrantes img {
+  width: 100%;
+  aspect-ratio: 1 / 1;       /* força proporção quadrada */
+  object-fit: cover;         /* corta a imagem se necessário */
+  display: block;
 }
