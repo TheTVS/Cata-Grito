@@ -70,6 +70,11 @@ body {
   font-weight: 500;
 }
 
+.nav-center a{
+  text-decoration: none;
+  color: black;
+}
+
 /* === Mobile menu === */
 .nav-mobile-toggle {
   display: none;
@@ -112,20 +117,34 @@ body {
 
 /* === Sobre Nós Content === */
 table {
-    width: 90%;
-    margin: 100px auto;
-
+    width: 80%;
+    margin-top: 100px;
+    margin-left: 200px;
     }
 td {
+    position: relative;
     padding-right: 150px;
+    width: 50%;
 }
 .bold {
+    position: relative;
     font-weight: bold;
     font-size: 1.6em;
     line-height: 1.4em;
 }
-.logo{
-    width: 250px;
-    height: 250px;
-    background: black;
+.container {
+      display: flex;
+      gap: 10px;
+      justify-content: left;
+      margin-top: 50px;
+    }
+.quadrado {
+      width: 250px;
+      height: 250px;
+      background-color: black;
+}
+.segundo_paragrafo {
+    position: relative;
+    font-size: 1.5em;
+    line-height: 1.1em;
 }
