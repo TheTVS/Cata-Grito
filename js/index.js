@@ -1,24 +1,23 @@
 // ---- Scroll Snap apenas na primeira seção ----
 let isScrolling = false;
-const firstSectionHeight = window.innerHeight+90;
+const firstSectionHeight = window.innerHeight + 10;
 
 window.addEventListener("wheel", (e) => {
   const scrollPosition = window.scrollY;
 
-  // Snap só se estiver na primeira seção
+  if (window.innerWidth <= 768) return; // no snap em mobile
+
   if (scrollPosition < firstSectionHeight && !isScrolling) {
     isScrolling = true;
 
     if (e.deltaY > 0) {
-      // scroll para baixo
       window.scrollTo({ top: firstSectionHeight, behavior: "smooth" });
     } else if (e.deltaY < 0) {
-      // scroll para cima
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     setTimeout(() => (isScrolling = false), 1000);
-    e.preventDefault(); // previne scroll padrão
+    e.preventDefault();
   }
 });
 
@@ -29,13 +28,17 @@ const hero = document.querySelector(".hero-section");
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      // Está vendo a imagem → navbar some
       navbar.classList.remove("visible");
     } else {
-      // Saiu da imagem → navbar aparece
       navbar.classList.add("visible");
     }
   });
 }, { threshold: 0.2 });
 
 observer.observe(hero);
+
+// ---- Menu Mobile ----
+const navToggle = document.getElementById("nav-toggle");
+navToggle.addEventListener("click", () => {
+  navbar.classList.toggle("active");
+});
