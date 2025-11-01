@@ -1,0 +1,171 @@
+#include <dummy.h>
+#include "esp_camera.h"
+#include <WiFi.h>
+#include <WebServer.h>
+#include <HTTPClient.h>
+
+// Configurações WiFi
+const char* ssid = "STM_VIEIRA";
+const char* password = "92598472";
+
+// URL do seu servidor PHP (ajuste o endereço conforme seu servidor)
+const char* upload_url = "http://192.168.3.7/upload.php";
+
+// Pinos da câmera OV2640 (modelo AI Thinker)
+#define PWDN_GPIO_NUM     32
+#define RESET_GPIO_NUM    -1
+#define XCLK_GPIO_NUM      0
+#define SIOD_GPIO_NUM     26
+#define SIOC_GPIO_NUM     27
+#define Y9_GPIO_NUM       35
+#define Y8_GPIO_NUM       34
+#define Y7_GPIO_NUM       39
+#define Y6_GPIO_NUM       36
+#define Y5_GPIO_NUM       21
+#define Y4_GPIO_NUM       19
+#define Y3_GPIO_NUM       18
+#define Y2_GPIO_NUM        5
+#define VSYNC_GPIO_NUM    25
+#define HREF_GPIO_NUM     23
+#define PCLK_GPIO_NUM     22
+
+WebServer server(80);
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("\n=== Teste ESP32-CAM - Cata Grito ===");
+  
+  // Configurar câmera
+  camera_config_t config;
+  config.ledc_channel = LEDC_CHANNEL_0;
+  config.ledc_timer = LEDC_TIMER_0;
+  config.pin_d0 = Y2_GPIO_NUM;
+  config.pin_d1 = Y3_GPIO_NUM;
+  config.pin_d2 = Y4_GPIO_NUM;
+  config.pin_d3 = Y5_GPIO_NUM;
+  config.pin_d4 = Y6_GPIO_NUM;
+  config.pin_d5 = Y7_GPIO_NUM;
+  config.pin_d6 = Y8_GPIO_NUM;
+  config.pin_d7 = Y9_GPIO_NUM;
+  config.pin_xclk = XCLK_GPIO_NUM;
+  config.pin_pclk = PCLK_GPIO_NUM;
+  config.pin_vsync = VSYNC_GPIO_NUM;
+  config.pin_href = HREF_GPIO_NUM;
+  config.pin_sscb_sda = SIOD_GPIO_NUM;
+  config.pin_sscb_scl = SIOC_GPIO_NUM;
+  config.pin_pwdn = PWDN_GPIO_NUM;
+  config.pin_reset = RESET_GPIO_NUM;
+  config.xclk_freq_hz = 20000000;
+  config.pixel_format = PIXFORMAT_JPEG;
+  
+  // Configurações de qualidade
+  if(psramFound()){
+    config.frame_size = FRAMESIZE_UXGA; // 1600x1200
+    config.jpeg_quality = 10;
+    config.fb_count = 2;
+    Serial.println("PSRAM encontrada - Alta qualidade");
+  } else {
+    config.frame_size = FRAMESIZE_SVGA; // 800x600
+    config.jpeg_quality = 12;
+    config.fb_count = 1;
+    Serial.println("PSRAM não encontrada - Qualidade média");
+  }
+  
+  // Inicializar câmera
+  esp_err_t err = esp_camera_init(&config);
+  if (err != ESP_OK) {
+    Serial.printf("ERRO: Falha ao inicializar câmera: 0x%x\n", err);
+    return;
+  }
+  Serial.println("✓ Câmera inicializada com sucesso!");
+  
+  // Conectar WiFi
+  WiFi.begin(ssid, password);
+  Serial.print("Conectando ao WiFi");
+  
+  int tentativas = 0;
+  while (WiFi.status() != WL_CONNECTED && tentativas < 20) {
+    delay(500);
+    Serial.print(".");
+    tentativas++;
+  }
+  
+  if(WiFi.status() == WL_CONNECTED) {
+    Serial.println("\n✓ WiFi conectado!");
+    Serial.print("IP: ");
+    Serial.println(WiFi.localIP());
+    
+    // Configurar servidor web
+    server.on("/", handleRoot);
+    server.on("/capture", handleCapture);
+    server.begin();
+    Serial.println("✓ Servidor web iniciado!");
+    Serial.println("\nAcesse no navegador:");
+    Serial.print("http://");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\n✗ Falha ao conectar WiFi");
+  }
+}
+
+void loop() {
+  server.handleClient();
+}
+
+// Página inicial
+void handleRoot() {
+  String html = "<!DOCTYPE html><html><head><meta charset='UTF-8'>";
+  html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+  html += "<title>ESP32-CAM - Cata Grito</title>";
+  html += "<style>body{font-family:Arial;text-align:center;margin:20px;}";
+  html += "button{padding:15px 30px;font-size:18px;margin:10px;cursor:pointer;}";
+  html += "</style></head>";
+  html += "<body><h1>Cata Grito - Envio de Foto</h1>";
+  html += "<p>Status: <strong style='color:green'>Câmera OK</strong></p>";
+  html += "<button onclick='enviar()'>Enviar Foto para Servidor PHP</button>";
+  html += "<div id='res'></div>";
+  html += "<script>function enviar(){";
+  html += "document.getElementById('res').innerHTML='Capturando e enviando...';";
+  html += "fetch('/capture').then(r=>r.text()).then(t=>{document.getElementById('res').innerHTML=t;});";
+  html += "}</script></body></html>";
+  
+  server.send(200, "text/html", html);
+}
+
+// Captura e envia para PHP
+void handleCapture() {
+  camera_fb_t * fb = esp_camera_fb_get();
+  if (!fb) {
+    Serial.println("Falha ao capturar imagem");
+    server.send(500, "text/plain", "Erro ao capturar");
+    return;
+  }
+
+  Serial.println("Foto capturada! Enviando para servidor PHP...");
+  Serial.printf("Tamanho: %d bytes\n", fb->len);
+
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(upload_url);
+    http.addHeader("Content-Type", "image/jpeg");
+
+    int httpResponseCode = http.POST(fb->buf, fb->len);
+
+    if (httpResponseCode > 0) {
+      Serial.printf("Resposta do servidor: %d\n", httpResponseCode);
+      String resposta = http.getString();
+      Serial.println(resposta);
+      server.send(200, "text/plain", resposta);
+    } else {
+      Serial.printf("Erro HTTP: %d\n", httpResponseCode);
+      server.send(500, "text/plain", "Erro ao enviar imagem");
+    }
+
+    http.end();
+  } else {
+    Serial.println("WiFi desconectado");
+    server.send(500, "text/plain", "Sem conexão WiFi");
+  }
+
+  esp_camera_fb_return(fb);
+}
