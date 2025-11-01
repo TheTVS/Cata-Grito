@@ -1,3 +1,14 @@
+<?php
+include('conexao.php');
+
+// Consulta todas as fotos com seus eventos
+$sql = "SELECT f.id, f.data, f.grito, f.caminho_foto, e.nome AS evento_nome
+        FROM foto f
+        INNER JOIN evento e ON f.evento_id = e.id
+        ORDER BY f.id DESC";
+
+$resultado = $conexao->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,7 +23,7 @@
     <div class="nav-mobile-toggle" id="nav-toggle">☰</div>
 
     <ul class="nav-left">
-      <li><a href="sobre_nos.html">SOBRE NÓS</a></li>
+      <li><a href="../html/sobre_nos.html">SOBRE NÓS</a></li>
       <li><a href="#projeto">O PROJETO</a></li>
     </ul>
 
@@ -36,18 +47,26 @@
     <!-- Conteúdo -->
     <section class="content-section">
       <table class="image-table">
-        <tr>
-          <td><img src="../img/temp.png" alt=""></td>
-          <td><img src="../img/temp.png" alt=""></td>
-          <td><img src="../img/temp.png" alt=""></td>
-          <td><img src="../img/temp.png" alt=""></td>
-        </tr>
-        <tr>
-          <td><img src="../img/temp.png" alt=""></td>
-          <td><img src="../img/temp.png" alt=""></td>
-          <td><img src="../img/temp.png" alt=""></td>
-          <td><img src="../img/temp.png" alt=""></td>
-        </tr>
+      <?php
+        if ($resultado->num_rows > 0) {
+            $count = 0;
+            echo "<tr>";
+            while ($linha = $resultado->fetch_assoc()) {
+                echo "<td><img src='../" . htmlspecialchars($linha['caminho_foto']) . "' alt='Foto'></td>";
+                $count++;
+
+                // Quebra de linha a cada 4 imagens
+                if ($count % 4 == 0) {
+                    echo "</tr><tr>";
+                }
+            }
+            echo "</tr>";
+        } else {
+            echo "<tr><td colspan='4'>Nenhuma foto encontrada.</td></tr>";
+        }
+
+        $conexao->close();
+        ?>
       </table>
     </section>
   </main>
