@@ -204,6 +204,26 @@ body {
   border-radius: 10px;
 }
 
+.image-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.image-table td {
+  text-align: center;
+  padding: 20px;
+  padding-bottom: 80px;
+}
+
+.image-table img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+}
+
 @media (max-width: 850px) {
   .tabela-cata {
     width: 95%;

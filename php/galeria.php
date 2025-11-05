@@ -15,10 +15,10 @@ $resultado = $conexao->query($sql);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.cdnfonts.com/css/neue-haas-unica" rel="stylesheet">
-  <link rel="stylesheet" href="../css/index_css.css">
+  <link rel="stylesheet" href="../css/sobre_noscss.css">
   <title>CATA-GRITO</title>
 </head>
-<body>
+<body style ="background-color: #000000;">
   <nav class="navbar">
     <div class="nav-mobile-toggle" id="nav-toggle">☰</div>
 
@@ -33,21 +33,12 @@ $resultado = $conexao->query($sql);
     </div>
 
     <ul class="nav-right">
-      <li><a href="galeria.php">GALERIA</a></li>
+      <li><a href="#galeria">GALERIA</a></li>
       <li><a href="../html/manifesto.html">MANIFESTO</a></li>
     </ul>
   </nav>
 
-  <main class="snap-container">
-    <!-- Seção da imagem -->
-    <section class="hero-section">
-      <img src="../img/fundo.png" alt="Imagem de fundo" class="hero-image">
-    </section>
-
-    <!-- Conteúdo -->
-    <section class="content-section">
-      <br><br>
-      <table class="image-table">
+      <table class="image-table" style="margin-top: 250px;">
       <?php
         if ($resultado->num_rows > 0) {
             $count = 0;
@@ -69,9 +60,15 @@ $resultado = $conexao->query($sql);
         $conexao->close();
         ?>
       </table>
-    </section>
   </main>
 
-  <script src="../js/index.js"></script>
+  <script>
+    const navToggle = document.getElementById("nav-toggle");
+    const navbar = document.querySelector(".navbar");
+
+    navToggle.addEventListener("click", () => {
+        navbar.classList.toggle("active");
+    });
+  </script>
 </body>
 </html>

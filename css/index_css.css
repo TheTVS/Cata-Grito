@@ -157,7 +157,8 @@ body {
 
 .image-table img {
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
   height: auto;
   filter: brightness(10%);
   cursor: pointer;
