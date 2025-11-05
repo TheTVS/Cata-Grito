@@ -24,10 +24,6 @@ body {
   height: 120px;
 }
 
-.navbar.visible {
-  transform: translateY(0);
-}
-
 .nav-left,
 .nav-right {
   list-style: none;
@@ -70,7 +66,7 @@ body {
   font-weight: 500;
 }
 
-.nav-center a{
+.nav-center a {
   text-decoration: none;
   color: black;
 }
@@ -93,7 +89,7 @@ body {
   .nav-left, .nav-right {
     display: none;
     flex-direction: column;
-    gap: 50px;
+    gap: 40px;
     width: 100%;
     text-align: center;
     background: white;
@@ -115,32 +111,29 @@ body {
   }
 }
 
-/* === Sobre Nós Content === */
-/* Escopo isolado — só afeta a tabela do CATA-GRITO */
+/* === SOBRE NÓS === */
 .tabela-cata {
   width: 80%;
-  margin-top: 100px;
-  margin-left: 200px;
-  margin-bottom: 50px;
+  margin: 120px auto 50px auto;
   border-collapse: collapse;
 }
 
 /* Células principais */
 .tabela-cata td {
   position: relative;
-  padding-right: 150px;
+  padding-right: 100px;
   width: 50%;
   vertical-align: top;
 }
 
 /* Primeira coluna com o texto principal */
 .tabela-cata .coluna-texto {
-  width: 70%;
+  width: 50%;
 }
 
 /* Segunda coluna com os quadrados */
 .tabela-cata .coluna-imagens {
-  width: 30%;
+  width: 50%;
 }
 
 /* Título / parágrafo principal */
@@ -157,58 +150,162 @@ body {
   gap: 10px;
   justify-content: left;
   margin-top: 50px;
+  flex-wrap: wrap;
 }
 
-/* Quadrados pretos */
 .tabela-cata .quadrado {
   width: 250px;
   height: 250px;
   background-color: black;
 }
 
-/* Segundo parágrafo */
 .tabela-cata .segundo-paragrafo {
   position: relative;
+  top: -30px;
   padding-left: 10%;
   padding-right: 20%;
   padding-bottom: 20px;
-  top: -15px;
   font-size: 1.5em;
-  line-height: 1.1em;
+  line-height: 1.3em;
 }
 
-/* Demais parágrafos */
 .tabela-cata .paragrafos p {
   font-size: 1.2em;
-  line-height: 1.1em;
+  line-height: 1.4em;
 }
 
-/* 🔹 deixa o título alinhado com a primeira imagem */
-.titulo-integrantes {           /* mesmo tamanho da tabela */
-  margin: 0 auto;        /* centraliza o bloco geral */
-  text-align: left;      /* alinha o texto à esquerda dentro do bloco */
-  padding-left: 5%;    /* 👈 desloca o texto para alinhar com a primeira célula */
+/* === INTEGRANTES === */
+.titulo-integrantes {
+  margin: 0 auto;
+  text-align: left;
+  padding-left: 5%;
   font-size: 2em;
   font-weight: bold;
 }
 
 .integrantes {
-  width: 95%;                
-  margin: 0 auto;            
-  border-collapse: separate; 
-  border-spacing: 25px;      /* espaçamento entre as imagens */
-  table-layout: fixed;       
+  width: 95%;
+  margin: 0 auto 80px auto;
+  border-collapse: separate;
+  border-spacing: 25px;
+  table-layout: fixed;
 }
 
 .integrantes td {
-  width: 20%; 
+  width: 20%;
   padding: 0;
 }
 
-/* 🔲 deixa as imagens quadradas */
 .integrantes img {
   width: 100%;
-  aspect-ratio: 1 / 1;       /* força proporção quadrada */
-  object-fit: cover;         /* corta a imagem se necessário */
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   display: block;
+  border-radius: 10px;
+}
+
+@media (max-width: 850px) {
+  .tabela-cata {
+    width: 95%;
+    margin: 100px auto 40px auto;
+  }
+
+  .tabela-cata .coluna-texto {
+    width: 90%; /* ocupa mais espaço horizontal no mobile */
+  }
+
+  /* Cada linha vira bloco empilhado */
+  .tabela-cata tr {
+    display: block;
+    margin-bottom: 40px;
+  }
+
+  /* Cada célula agora ocupa 100% */
+  .tabela-cata td {
+    display: block;
+    width: 100%;
+    padding-right: 0;
+  }
+
+  /* 🔹 Primeiro parágrafo ocupa toda a tela e texto maior */
+  .tabela-cata .bold {
+    font-size: 1.6em;
+    line-height: 1.6em;
+    text-align: justify;
+    width: 100%;
+  }
+
+  /* 🔹 Quadrados lado a lado e centralizados */
+  .tabela-cata .container {
+    display: flex;
+    flex-direction: row; /* lado a lado */
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+    width: 100%;
+  }
+
+  .tabela-cata .quadrado {
+    flex: 1;
+    max-width: 45%;  /* ocupa quase metade da tela cada */
+    height: auto;
+    aspect-ratio: 1 / 1; /* mantém forma quadrada */
+    background-color: black;
+  }
+
+  /* Ajuste dos demais textos */
+  .tabela-cata .segundo-paragrafo {
+    padding: 0;
+    font-size: 1.3em;
+    line-height: 1.4em;
+    width: 100%;
+  }
+
+  .tabela-cata .paragrafos p {
+    font-size: 1.1em;
+    line-height: 1.4em;
+  }
+
+  /* 🔹 Integrantes: 2 por linha */
+  .integrantes {
+    width: 90%;
+    border-spacing: 15px;
+  }
+
+  .integrantes tr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .integrantes td {
+    width: 45%;
+  }
+
+  .titulo-integrantes {
+    padding-left: 7%;
+    text-align: center;
+    font-size: 1.6em;
+    margin-bottom: 20px;
+  }
+}
+
+/* telas menores (até 500px) */
+@media (max-width: 500px) {
+  .tabela-cata .bold {
+    font-size: 1.4em;
+  }
+
+  .tabela-cata .container {
+    gap: 10px;
+  }
+
+  .tabela-cata .quadrado {
+    max-width: 48%;
+  }
+
+  .integrantes td {
+    width: 80%;
+  }
 }

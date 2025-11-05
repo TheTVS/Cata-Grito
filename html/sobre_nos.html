@@ -19,12 +19,12 @@
 
     <div class="nav-center">
       <div class="logo"></div>
-      <h1><a href="index.html">CATA-GRITO</a></h1>
+      <h1><a href="../php/index.php">CATA-GRITO</a></h1>
     </div>
 
     <ul class="nav-right">
       <li><a href="#galeria">GALERIA</a></li>
-      <li><a href="#manifesto">MANIFESTO</a></li>
+      <li><a href="manifesto.html">MANIFESTO</a></li>
     </ul>
   </nav>
   <br><br><br><br><br><br>
@@ -82,6 +82,14 @@
             <td><img src="../img/temp.png" alt=""></td>
           </tr>
       </table>
-      
+
+<script>
+  const navToggle = document.getElementById("nav-toggle");
+  const navbar = document.querySelector(".navbar");
+
+  navToggle.addEventListener("click", () => {
+    navbar.classList.toggle("active");
+  });
+</script>
 </body>
 </html>

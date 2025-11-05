@@ -34,7 +34,7 @@ $resultado = $conexao->query($sql);
 
     <ul class="nav-right">
       <li><a href="#galeria">GALERIA</a></li>
-      <li><a href="#manifesto">MANIFESTO</a></li>
+      <li><a href="../html/manifesto.html">MANIFESTO</a></li>
     </ul>
   </nav>
 
