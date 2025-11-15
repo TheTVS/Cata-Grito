@@ -59,9 +59,10 @@ document.querySelectorAll(".img-container img").forEach((img, index) => {
     src: obj.src,
     nome: obj.nome,
     data: obj.data,
-    serial: obj.serial,
+    latitude: obj.latitude,      // <--- adicionado
+    longitude: obj.longitude,    // <--- adicionado
     texto: obj.texto
-  });
+});
 
   img.addEventListener("click", () => openCarousel(index));
 });
@@ -81,84 +82,83 @@ function openCarousel(index) {
 
   const imgData = images[currentIndex];
 
+  // imagem principal
   imgMain.src = imgData.src;
 
+  // texto lateral
   leftInfo.innerHTML = `
-    <b>${imgData.nome}</b><br>
-    data — ${imgData.data}<br>
-    serial — ${imgData.serial}
+    <table>
+    <tr><td  colspan='2'>${imgData.nome}</td></tr>
+    <tr><td>Data &emsp;</td><td>${imgData.data}</td></tr>
+    <tr><td>Lat &emsp;</td><td>${imgData.latitude}</td></tr>
+    <tr><td>Lon &emsp;</td><td>${imgData.longitude}</td></tr>
+    </table>
   `;
-
   rightInfo.innerHTML = imgData.texto;
 
-  // ---- MOBILE → sem thumbs & sem setas ----
-  if (isMobile) {
+  // MOBILE → sem setas e thumbs
+  if (window.innerWidth <= 768) {
     thumbLeft.style.display = "none";
     thumbRight.style.display = "none";
-
     document.getElementById("carouselPrev").style.display = "none";
     document.getElementById("carouselNext").style.display = "none";
+    return;
+  }
 
+  // PC → thumbs laterais
+  // thumb esquerda
+  if (currentIndex === 0) {
+    thumbLeft.style.display = "none";
   } else {
-    // ---- PC → thumbs normais ----
-    if (currentIndex === 0) {
-      thumbLeft.style.display = "none";
-    } else {
-      thumbLeft.style.display = "block";
-      thumbLeft.src = images[currentIndex - 1].src;
-    }
+    thumbLeft.style.display = "block";
+    thumbLeft.src = images[currentIndex - 1].src;
+  }
 
-    if (currentIndex === images.length - 1) {
-      thumbRight.style.display = "none";
-    } else {
-      thumbRight.style.display = "block";
-      thumbRight.src = images[currentIndex + 1].src;
-    }
+  // thumb direita
+  if (currentIndex === images.length - 1) {
+    thumbRight.style.display = "none";
+  } else {
+    thumbRight.style.display = "block";
+    thumbRight.src = images[currentIndex + 1].src;
   }
 }
 
-// -------------------- SETAS (PC apenas) ---------------------
+// --- Navegação por setas (PC)
 document.getElementById("carouselPrev").onclick = () => {
   if (currentIndex > 0) openCarousel(currentIndex - 1);
 };
-
 document.getElementById("carouselNext").onclick = () => {
   if (currentIndex < images.length - 1) openCarousel(currentIndex + 1);
 };
 
-// -------------------- FECHAR MODAL ---------------------
+// --- Fechar modal
 document.getElementById("closeCarousel").onclick = () => {
-  const modal = document.getElementById("carouselModal");
-  const imgMain = document.getElementById("carouselImage");
-
-  modal.style.display = "none";
-  imgMain.classList.remove("zoomed"); // resetar zoom
+  document.getElementById("carouselModal").style.display = "none";
 };
 
-// -------------------- SWIPE NO MOBILE ---------------------
-if (isMobile) {
+// ---- SWIPE E ZOOM (mobile)
+if (window.innerWidth <= 768) {
   const imgMain = document.getElementById("carouselImage");
   let startX = 0;
 
-  imgMain.addEventListener("touchstart", (e) => {
+  imgMain.addEventListener("touchstart", e => {
     startX = e.touches[0].clientX;
   });
 
-  imgMain.addEventListener("touchend", (e) => {
-    let endX = e.changedTouches[0].clientX;
-    let diff = startX - endX;
+  imgMain.addEventListener("touchend", e => {
+    let diff = startX - e.changedTouches[0].clientX;
 
     if (Math.abs(diff) > 50) {
       if (diff > 0 && currentIndex < images.length - 1) {
-        openCarousel(currentIndex + 1); // esquerda → próxima
+        openCarousel(currentIndex + 1);
       } else if (diff < 0 && currentIndex > 0) {
-        openCarousel(currentIndex - 1); // direita → anterior
+        openCarousel(currentIndex - 1);
       }
     }
   });
 
-  // -------------------- ZOOM NO MOBILE ---------------------
   imgMain.addEventListener("click", () => {
     imgMain.classList.toggle("zoomed");
   });
 }
+

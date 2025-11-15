@@ -208,7 +208,6 @@ body {
 }
 
 /* === CARROSSEL === */
-/* fundo escuro ocupando a tela */
 .carousel-modal {
   display: none;
   position: fixed;
@@ -217,53 +216,54 @@ body {
   width: 100%;
   height: 100%;
   background: black;
-  z-index: 98; /* abaixo da navbar */
+  z-index: 9999;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-size: 25px
 }
 
-/* o conteúdo inteiro */
 .carousel-wrapper {
   width: 100%;
   max-width: 1200px;
-  margin-top: 80px; /* deixa a navbar visível */
+  margin-top: 80px;
   text-align: center;
   position: relative;
 }
 
-/* imagem principal */
 .carousel-main-img {
-  width: 900px;
+  width: 90%;
+  max-width: 900px;
   height: auto;
+  transition: transform 0.3s;
 }
 
-/* seta esquerda e direita */
+.carousel-main-img.zoomed {
+  transform: scale(2);
+}
+
+/* setas */
 .carousel-arrow {
   position: absolute;
   top: 50%;
-  font-size: 70px;
+  font-size: 80px;
   color: white;
   cursor: pointer;
   user-select: none;
   transform: translateY(-50%);
+  z-index: 20;
 }
 
-.carousel-arrow.left {
-  left: -50px;
-}
+.carousel-arrow.left { left: -60px; }
+.carousel-arrow.right { right: -60px; }
 
-.carousel-arrow.right {
-  right: -50px;
-}
-
-/* miniaturas nos cantos */
+/* thumbs */
 .carousel-thumb {
   width: 120px;
   height: 70px;
   overflow: hidden;
   position: absolute;
-  bottom: 150px;
+  bottom: 190px;
 }
 
 .carousel-thumb img {
@@ -272,36 +272,29 @@ body {
   object-fit: cover;
 }
 
-.left-thumb {
-  left: 10px;
-}
+.left-thumb { left: 10px; }
+.right-thumb { right: 10px; }
 
-.right-thumb {
-  right: 10px;
-}
-
-/* área das infos */
+/* infos laterais */
 .carousel-info-area {
   display: flex;
   justify-content: space-between;
-  padding: 30px 150px;
+  padding: 30px 60px;
   color: white;
-  font-family: "Neue Haas Unica", sans-serif;
-  font-size: 18px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* coluna esquerda (informações) */
 .carousel-left-info {
   width: 40%;
   text-align: left;
-  line-height: 30px;
 }
 
-/* coluna direita (texto descritivo) */
 .carousel-right-info {
-  width: 50%;
+  width: 55%;
   text-align: left;
-  line-height: 28px;
+  line-height: 24px;
 }
 
 /* botão fechar */
@@ -312,46 +305,46 @@ body {
   font-size: 60px;
   color: white;
   cursor: pointer;
-  z-index: 99;
+  z-index: 10000;
 }
 
+/* MOBILE */
 @media (max-width: 768px) {
-  .img-info {
-    opacity: 1;                  /* sempre visível */
-    pointer-events: none;
-  }
 
-  .img-container img {
-    filter: brightness(100%);    /* imagem clara */
-  }
-}
-
-@media (max-width: 768px) {
-  .carousel-arrow {
-    font-size: 50px;
+  .carousel-info-area {
+    flex-direction: column;
+    gap: 20px;
     padding: 20px;
   }
 
-  .carousel-arrow.left {
-    left: 10px;
+  .carousel-left-info,
+  .carousel-right-info {
+    width: 100%;
+    text-align: left;
   }
 
-  .carousel-arrow.right {
-    right: 10px;
+  .carousel-arrow,
+  .carousel-thumb {
+    display: none !important;
+  }
+
+  .carousel-main-img {
+    width: 100%;
   }
 }
-
+/* Impedir texto da imagem de vazar no mobile */
 @media (max-width: 768px) {
-  .carousel-thumb {
-    width: 80px;
-    height: 50px;
-  }
-  
-  .left-thumb {
-    left: 10px;
-  }
-  
-  .right-thumb {
-    right: 10px;
+  .img-info {
+    text-align: right;
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+    width: 100%;
+    color: #FF2D2D;
+    padding: 10px;
+    font-size: 20px;
+    opacity: 0;
+    cursor: pointer;
+    pointer-events: none;
   }
 }

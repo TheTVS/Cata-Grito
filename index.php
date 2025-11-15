@@ -4,7 +4,7 @@ include('php/conexao.php');
 
 // Consulta todas as fotos com seus eventos
 $sql = "SELECT f.id, f.data, f.grito, f.caminho_foto, 
-               e.nome AS evento_nome, e.latitude, e.longitude
+               e.nome AS evento_nome, e.latitude, e.longitude, e.descricao
         FROM foto f
         INNER JOIN evento e ON f.evento_id = e.id
         ORDER BY f.id DESC
@@ -61,10 +61,11 @@ $resultado = $conexao->query($sql);
                   "src" => "../" . $linha["caminho_foto"],
                   "nome" => $linha["evento_nome"],
                   "data" => $linha["data"],
-                  "serial" => $linha["grito"],
-                  "texto" => "Lorem ipsum dolor sit amet, descrição da foto..."
-                ];
-                $info_json = htmlspecialchars(json_encode($info), ENT_QUOTES, 'UTF-8');
+                  "latitude" => $linha["latitude"],   // <--- importante
+                  "longitude" => $linha["longitude"], // <--- importante
+                  "texto" => $linha["descricao"] ?? "",
+              ];
+              $info_json = json_encode($info, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
                 echo "
                 <td>
@@ -100,7 +101,6 @@ $resultado = $conexao->query($sql);
   <!-- CARROSSEL -->
   <div id="carouselModal" class="carousel-modal">
     <div class="carousel-wrapper">
-
       <span class="carousel-arrow left" id="carouselPrev">&#8592;</span>
       <span class="carousel-arrow right" id="carouselNext">&#8594;</span>
 
